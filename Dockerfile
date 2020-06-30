@@ -9,6 +9,7 @@ RUN     apk update && \
                 bash \
                 git \
                 php7 \
+		php7-fpm \
                 php7-dom \
                 php7-gd \
                 php7-pdo \
@@ -50,7 +51,7 @@ RUN rm -rf /var/www/*
 RUN git clone --single-branch --branch 9.0.x https://github.com/drupal/recommended-project.git .
 RUN composer update
 RUN composer require drush/drush
-RUN composer require 'drupal/bootstrap_sass:^1.12'
+RUN composer require 'drupal/bfd:^2.54'
 
 # loop de loop to keep going
 CMD tail -f /dev/null
