@@ -31,6 +31,7 @@ RUN     apk update && \
 		php7-pdo_odbc \
 		php7-pdo_mysql \
 		php7-pdo_pgsql \
+		yarn \
                 nfs-utils \
 		libtirpc \
 		rpcbind \
@@ -52,6 +53,16 @@ RUN git clone --single-branch --branch 9.0.x https://github.com/drupal/recommend
 RUN composer update
 RUN composer require drush/drush
 RUN composer require 'drupal/bfd:^2.54'
+RUN git clone https://github.com/thelounge/thelounge
+
+WORKDIR /var/www/thelounge
+
+RUN yarn install
+RUN NODE_ENV=production yarn build
+RUN yarn link
+RUN thelounge start &
+
+WORKDIR /var/www
 
 # loop de loop to keep going
 CMD tail -f /dev/null
