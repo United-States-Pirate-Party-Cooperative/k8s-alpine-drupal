@@ -39,7 +39,7 @@ RUN     apk update && \
 		openrc \
                 composer \
                 wget \
-                nginx
+		nodejs
 
 
 ## Get dependencies for Go part of build
