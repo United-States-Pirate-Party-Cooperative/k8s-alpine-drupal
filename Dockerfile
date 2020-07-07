@@ -41,6 +41,8 @@ RUN     apk update && \
                 wget \
 		nodejs
 
+RUN npm install -g bower
+
 
 ## Get dependencies for Go part of build
 #RUN go get -u github.com/jteeuwen/go-bindata/...
