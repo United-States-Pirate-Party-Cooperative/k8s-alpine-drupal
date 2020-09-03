@@ -6,40 +6,42 @@ ENV COMPOSER_MEMORY_LIMIT=-1
 RUN     apk update && \
         apk upgrade && \
         apk add --no-cache \
-                bash \
-                git \
-                php7 \
-		php7-fpm \
-                php7-dom \
-                php7-gd \
-                php7-pdo \
-                php7-session \
-                php7-simplexml \
-                php7-tokenizer \
-                php7-xml \
-                php7-curl \
-                php7-xmlwriter \
-                php7-json \
-		php7-ctype \
-		php7-posix \
-		php7-soap \
-		php7-intl \
-		php7-pcntl \
-		php7-bz2 \
-		php7-pdo \
-		php7-pdo_sqlite \
-		php7-pdo_odbc \
+          bash \
+          git \
+		nfs-utils \
+		net-snmp \
+		mysql-client \
+          util-linux \
+          php7 \
+          php7-fpm \
+          php7-dom \
+          php7-gd \
+          php7-pdo \
 		php7-pdo_mysql \
-		php7-pdo_pgsql \
+		php7-session \
+          php7-simplexml \
+          php7-tokenizer \
+          php7-xml \
+          php7-curl \
+          php7-xmlwriter \
+          php7-json \
+          php7-ctype \
+          php7-posix \
+          php7-soap \
+          php7-intl \
+          php7-bz2 \
+          php7-mysqli \
+          vim \
+          net-tools \
+          rpcbind \
+          musl \
+          openrc \
+          composer \
+          wget \
+          nginx \
 		yarn \
-                nfs-utils \
-		libtirpc \
-		rpcbind \
-		musl \
-		openrc \
-                composer \
-                wget \
-		nodejs
+          npm
+
 
 RUN npm install -g bower
 
