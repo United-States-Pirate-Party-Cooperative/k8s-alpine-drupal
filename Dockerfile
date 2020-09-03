@@ -85,7 +85,7 @@ EXPOSE ${LOUNGE_PORT}
 RUN /sbin/su-exec www-data:www-data yarn install
 #RUN /sbin/su-exec www-data:www-data NODE_ENV=production yarn build
 RUN /sbin/su-exec www-data:www-data yarn build
-RUN /sbin/su-exec www-data:www-data yarn start
+RUN /sbin/su-exec www-data:www-data yarn start &
 #
 #RUN /sbin/su-exec www-data:www-data yarn link "thelounge"
 #RUN /sbin/su-exec www-data:www-data thelounge start &
