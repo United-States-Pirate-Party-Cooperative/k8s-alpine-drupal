@@ -14,4 +14,4 @@ steps:
    - --location=us-central1-a
    - --cluster=cluster-1
    - --verbose
- timeout: 3600s
+timeout: 3600s
