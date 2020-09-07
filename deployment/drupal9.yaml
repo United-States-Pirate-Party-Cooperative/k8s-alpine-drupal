@@ -19,7 +19,7 @@ spec:
         app: drupal
     spec:
       containers:
-      - image: gcr.io/the-slate-133223/k8s-alpine-drupal@sha256:cfd88b8168d8ba66f37830473f0be8b4c99e194b11a57019868393b17b5521b3
+      - image: gcr.io/the-slate-133223/united-states-pirate-party-cooperative/k8s-alpine-drupal:$REVISION_ID
         securityContext:
           capabilities:
             add: ["SYS_ADMIN", "SETPCAP"]
@@ -36,15 +36,11 @@ spec:
 status:
   availableReplicas: 3
   conditions:
-  - lastTransitionTime: "2020-06-30T21:40:23Z"
-    lastUpdateTime: "2020-06-30T21:40:23Z"
-    message: Deployment has minimum availability.
+  - message: Deployment has minimum availability.
     reason: MinimumReplicasAvailable
     status: "True"
     type: Available
-  - lastTransitionTime: "2020-06-30T21:40:01Z"
-    lastUpdateTime: "2020-06-30T21:40:23Z"
-    message: ReplicaSet "drupal9-77cf9574b8" has successfully progressed.
+  - message: ReplicaSet "drupal9-77cf9574b8" has successfully progressed.
     reason: NewReplicaSetAvailable
     status: "True"
     type: Progressing
