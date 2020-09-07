@@ -8,5 +8,5 @@ steps:
     args: ['push', 'gcr.io/the-slate-133223/github.com/united-states-pirate-party-cooperative/k8s-alpine-drupal:$REVISION_ID']
  # deploy container image to GKE
  -  name: 'gcr.io/cloud-builders/kubectl'
-    args: ['set', 'image', 'deployment/my-deployment', 'gcr.io/the-slate-133223/github.com/united-states-pirate-party-cooperative/k8s-alpine-drupal:$REVISION_ID']
+    args: ['set', 'image', 'deployment/drupal.yaml', 'gcr.io/the-slate-133223/github.com/united-states-pirate-party-cooperative/k8s-alpine-drupal:$REVISION_ID']
 timeout: 3600s
