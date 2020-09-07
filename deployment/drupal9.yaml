@@ -91,12 +91,12 @@ spec:
           name: sweb
         volumeMounts:
         - name: www
-          mountPath: /usr/share/nginx/html
+          mountPath: /www
   volumeClaimTemplates:
   - metadata:
       name: www
     spec:
-      accessModes: [ "ReadWriteOnce" ]
+      accessModes: [ "ReadWriteMany" ]
       storageClassName: "my-storage-class"
       resources:
         requests:
