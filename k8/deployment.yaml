@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: drupal-app
+  name: drupal-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: drupal-app
+  template:
+    metadata:
+      labels:
+        run: drupal-app
+    spec:
+      containers:
+      - image: gcr.io/<google-project-id>/<app-name>latest
+        name: drupal-app
+        ports:
+        - containerPort: 9000
