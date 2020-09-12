@@ -2,12 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: drupal
-  app: drupal
+  app: drupal-app
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: drupal
+      app: drupal-app
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -16,7 +16,7 @@ spec:
   template:
     metadata:
       labels:
-        app: drupal
+        app: drupal-app
     spec:
       containers:
       - image: gcr.io/the-slate-133223/united-states-pirate-party-cooperative/k8s-alpine-drupal:$REVISION_ID
@@ -58,17 +58,17 @@ metadata:
 spec:
   ports:
   - port: 80
-    name: web
+    name: http
   - port: 443
-    name: sweb
+    name: https
   clusterIP: None
   selector:
-    app: drupal
+    app: drupal-app
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: web
+  name: drupal-app
 spec:
   selector:
     matchLabels:
@@ -83,21 +83,22 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: drupal
-        image: k8s.gcr.io/nginx-slim:0.8
+        image: gcr.io/the-slate-133223/united-states-pirate-party-cooperative/k8s-alpine-drupal:$REVISION_ID
         ports:
         - containerPort: 80
-          name: web
+          name: http
         - containerPort: 443
-          name: sweb
+          name: https
         volumeMounts:
-        - name: www
-          mountPath: /www
+        - name: www1
+          mountPath: /var/www1
   volumeClaimTemplates:
-  - metadata:
-      name: www
+  - metadata
+    - name: www-us-central1-a-claim
+      namespace: default
     spec:
       accessModes: [ "ReadWriteMany" ]
-      storageClassName: "my-storage-class"
+      storageClassName: ''
       resources:
         requests:
-          storage: 1Gi
+          storage: 1T
