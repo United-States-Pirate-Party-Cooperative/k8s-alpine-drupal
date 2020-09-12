@@ -10,7 +10,7 @@ steps:
  -  name: "gcr.io/cloud-builders/gke-deploy"
     args:
     - run
-      - --filename=kubernetes-config-file
+      - --filename=kubernetes-config-file/deployment/drupal9.yaml
       - --image=gcr.io/the-slate-133223/github.com/united-states-pirate-party-cooperative/k8s-alpine-drupal:$REVISION_ID
       - --location=us-central1-a
       - --cluster=cluster-1
