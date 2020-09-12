@@ -7,11 +7,26 @@ steps:
  -  name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/the-slate-133223/github.com/united-states-pirate-party-cooperative/k8s-alpine-drupal:$REVISION_ID']
  # deploy container image to GKE
- -  name: "gcr.io/cloud-builders/gke-deploy"
-    args:
-    - run
-      - --filename=kubernetes-config-file/deployment/drupal9.yaml
-      - --image=gcr.io/the-slate-133223/github.com/united-states-pirate-party-cooperative/k8s-alpine-drupal:$REVISION_ID
-      - --location=us-central1-a
-      - --cluster=cluster-1
+ -  name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'k8s/']
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=cluster-1'
+ # step 4
+ -  name: 'gcr.io/cloud-builders/kubectl'
+    args: [
+      'set',
+      'image',
+      'deployment',
+      'drupal-app',
+      'drupal-app=gcr.io/$PROJECT_ID/github.com/united-states-pirate-party-cooperative/k8s-alpine-drupal:$REVISION_ID'
+     ]
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=cluster-1'
+ # push images to Google Container Registry with tags
+images: [
+   'gcr.io/$PROJECT_ID/github.com/united-states-pirate-party-cooperative/k8s-alpine-drupal:$REVISION_ID',
+   'gcr.io/$PROJECT_ID/drupal-app:latest'
+  ]
 timeout: 3600s
