@@ -15,7 +15,7 @@ spec:
         run: drupal-app
     spec:
       containers:
-      - image: gcr.io/<google-project-id>/<app-name>latest
+      - image: gcr.io/$PROJECT_ID/drupal-app:latest
         name: drupal-app
         ports:
         - containerPort: 9000
