@@ -12,6 +12,7 @@ RUN     apk update && \
 					net-snmp \
 					mysql-client \
 					util-linux \
+					unit \
 					php7 \
 					php7-fpm \
 					php7-dom \
@@ -39,7 +40,6 @@ RUN     apk update && \
 					openrc \
 					composer \
 					wget \
-					nginx \
 					npm
 
 
@@ -53,12 +53,13 @@ RUN npm install -g bowser
 ##
 
 #
-RUN mv /var/www /var/Owww
+#RUN mv /var/www /var/Owww
 # ensure www-data user exists
 RUN set -x ; \
   addgroup -g 82 -S www-data ; \
   adduser -u 82 -h /var/www -s /bin/bash -D -G www-data www-data && exit 0 ; exit 1
-#RUN chown www-data:www-data /var/www
+#RUN mkdir /var/www
+RUN chown www-data:www-data /var/www
 #RUN usermod -s /bin/bash www-data
 
 WORKDIR /var/www
@@ -93,11 +94,11 @@ RUN /sbin/su-exec www-data:www-data yarn start &
 WORKDIR /var/www
 
 # Expose HTTP.
-ENV PORT 80
-EXPOSE ${PORT}
+#ENV PORT 80
+#EXPOSE ${PORT}
 # Expose HTTPS.
-ENV HTTPS_PORT 443
-EXPOSE ${HTTPS_PORT}
+#ENV HTTPS_PORT 443
+#EXPOSE ${HTTPS_PORT}
 
 # need nginx config.
 #
