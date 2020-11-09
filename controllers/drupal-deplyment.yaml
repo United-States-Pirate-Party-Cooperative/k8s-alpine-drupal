@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+ name: fileserver-pv-claim
+ labels:
+  app: drupal
+spec:
+ accessModes:
+ - ReadWriteMany
+ storageClassName: ""
+ volumeName: fileserver
+ resources:
+   requests:
+     storage: 1T
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ name: fileserver
+spec:
+ capacity:
+   storage: 1T
+ accessModes:
+ - ReadWriteMany
+ nfs:
+   path: /www_uscentral1a
+   server: 10.145.161.26
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal-deployment
+  labels:
+    app: drupal
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: drupal
+  template:
+    metadata:
+      labels:
+        app: drupal
+    spec:
+      containers:
+      - name: drupal
+        image: gcr.io/the-slate-133223/drupal:current
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: fileserver
+            mountPath: /var/www
+      volumes:
+      - name: fileserver
+        persistentVolumeClaim:
+          claimName: fileserver-pv-claim
