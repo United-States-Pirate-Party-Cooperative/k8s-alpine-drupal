@@ -12,7 +12,6 @@ RUN     apk update && \
 					net-snmp \
 					mysql-client \
 					util-linux \
-					unit \
 					php7 \
 					php7-fpm \
 					php7-dom \
@@ -32,6 +31,9 @@ RUN     apk update && \
 					php7-intl \
 					php7-bz2 \
 					php7-mysqli \
+					unit \
+					unit-php7 \
+					certbot \
 					vim \
 					su-exec \
 					net-tools \
@@ -75,31 +77,37 @@ RUN /sbin/su-exec www-data:www-data composer require "drupal/bfd:^2.54"
 RUN /sbin/su-exec www-data:www-data composer require "drupal/qwebirc:^1.0"
 #
 WORKDIR /var/www
-RUN /sbin/su-exec www-data:www-data git clone https://github.com/thelounge/thelounge
-
-WORKDIR /var/www/thelounge
 
 # Expose HTTP.
-ENV LOUNGE_PORT 9000
-EXPOSE ${LOUNGE_PORT}
-
-RUN /sbin/su-exec www-data:www-data yarn install
-#RUN /sbin/su-exec www-data:www-data NODE_ENV=production yarn build
-RUN /sbin/su-exec www-data:www-data yarn build
-RUN /sbin/su-exec www-data:www-data yarn start &
-#
-#RUN /sbin/su-exec www-data:www-data yarn link "thelounge"
-#RUN /sbin/su-exec www-data:www-data thelounge start &
-
-WORKDIR /var/www
-
-# Expose HTTP.
-#ENV PORT 80
-#EXPOSE ${PORT}
+ENV PORT 80
+EXPOSE ${PORT}
 # Expose HTTPS.
-#ENV HTTPS_PORT 443
-#EXPOSE ${HTTPS_PORT}
+ENV HTTPS_PORT 443
+EXPOSE ${HTTPS_PORT}
 
+WORKDIR /var
+RUN mv /var/www /var/Owww
+RUN mkdir /var/www
+RUN chown www-data:www-data /var/www
+
+ENV NODE_ENV production
+
+ENV THELOUNGE_HOME "/var/opt/thelounge"
+VOLUME "${THELOUNGE_HOME}"
+
+# Expose HTTP.
+ENV PORT 9000
+EXPOSE ${PORT}
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["thelounge", "start"]
+
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+# Install thelounge.
+ARG THELOUNGE_VERSION=4.2.0
+RUN yarn --non-interactive --frozen-lockfile global add thelounge@${THELOUNGE_VERSION} && \
+    yarn --non-interactive cache clean
 # need nginx config.
 #
 
